@@ -1,0 +1,140 @@
+}<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA_BLOQUEADO</title>
+    <style>
+        /* Estética de terminal antigua / Intriga */
+        body {
+            background-color: #0a0a0a;
+            color: #1aff1a; /* Verde terminal */
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-shadow: 0 0 5px #1aff1a;
+        }
+
+        .container {
+            border: 1px solid #1aff1a;
+            padding: 40px;
+            background: rgba(0, 20, 0, 0.9);
+            box-shadow: 0 0 20px rgba(26, 255, 26, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            animation: parpadeo 2s infinite;
+        }
+
+        input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #1aff1a;
+            color: #1aff1a;
+            font-family: inherit;
+            font-size: 1.5rem;
+            text-align: center;
+            outline: none;
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #1aff1a;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: white;
+            box-shadow: 0 0 15px white;
+        }
+
+        #mensaje {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            min-height: 1.2rem;
+        }
+
+        /* Animación de parpadeo sutil */
+        @keyframes parpadeo {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Efecto de líneas de escaneo de TV vieja */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>ACCESO RESTRINGIDO</h1>
+        <p>IDENTIFIQUE EL CÓDIGO DE SESIÓN:</p>
+        
+        <input type="text" id="inputClave" maxlength="6" autocomplete="off" placeholder="******">
+        <br>
+        <button onclick="validar()">PROCESAR</button>
+
+        <div id="mensaje"></div>
+    </div>
+
+    <script>
+        function validar() {
+            const input = document.getElementById('inputClave').value.toUpperCase();
+            const mensaje = document.getElementById('mensaje');
+            const claveGuardada = localStorage.getItem('clave_secreta');
+
+            if (claveGuardada && input === claveGuardada) {
+                // ÉXITO
+                mensaje.style.color = "#1aff1a";
+                mensaje.innerText = "SISTEMA DESBLOQUEADO... REDIRECCIONANDO...";
+                
+                // BORRAR EL CÓDIGO PARA QUE SEA UN SOLO USO
+                localStorage.removeItem('clave_secreta');
+
+                // Simular carga y redirigir
+                setTimeout(() => {
+                    window.location.href = "https://www.google.com"; // Cambia esto por tu página secreta
+                }, 2000);
+
+            } else {
+                // FALLO
+                mensaje.style.color = "red";
+                mensaje.innerText = "ERROR: CLAVE INVÁLIDA O CADUCADA.";
+                
+                // Efecto de vibración opcional
+                document.querySelector('.container').style.borderColor = "red";
+                setTimeout(() => {
+                    document.querySelector('.container').style.borderColor = "#1aff1a";
+                }, 500);
+            }
+        }
+    </script>
+
+</body>
+</html>
